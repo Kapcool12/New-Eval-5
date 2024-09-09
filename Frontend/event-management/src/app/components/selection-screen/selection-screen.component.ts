@@ -18,6 +18,7 @@ export class EventSelectionComponent implements OnInit {
   events: EventModel[] = [];
   futureEvents: EventModel[] = [];
   selectedEvent: EventModel | null = null;
+  selectedEventId: string | null | undefined;
 
   constructor(
     private eventService: EventService,
@@ -45,11 +46,17 @@ export class EventSelectionComponent implements OnInit {
 
   openDetailsModal(event: EventModel): void {
     this.selectedEvent = event;
+    this.selectedEventId = event.eventId;
     const modalElement = document.getElementById('eventDetailsModal');
     if (modalElement) {
       const modal = new bootstrap.Modal(modalElement);
       modal.show();
     }
+  }
+
+  selectEvent(event: EventModel): void {
+    // Route to registration page with event ID
+    this.router.navigate(['/registration', event.eventId]);
   }
 
   closeModal(): void {
