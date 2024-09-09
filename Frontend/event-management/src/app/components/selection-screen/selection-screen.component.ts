@@ -15,8 +15,9 @@ declare var bootstrap: any;
   providers: [EventService],
 })
 export class EventSelectionComponent implements OnInit {
-  events: Event[] = [];
-  selectedEvent: Event | null = null;
+  events: EventModel[] = [];
+  futureEvents: EventModel[] = [];
+  selectedEvent: EventModel | null = null;
 
   constructor(
     private eventService: EventService,
@@ -29,12 +30,20 @@ export class EventSelectionComponent implements OnInit {
 
   fetchEvents(): void {
     this.eventService.getEvents().subscribe({
-      next: (events) => (this.events = events),
+      next: (events: EventModel[]) => {
+        this.events = events;
+        this.filterFutureEvents();
+      },
       error: (err) => console.error('Error fetching events:', err),
     });
   }
 
-  openDetailsModal(event: Event): void {
+  filterFutureEvents(): void {
+    const currentDate = new Date();
+    this.futureEvents = this.events.filter(event => new Date(event.eventDateTime) > currentDate);
+  }
+
+  openDetailsModal(event: EventModel): void {
     this.selectedEvent = event;
     const modalElement = document.getElementById('eventDetailsModal');
     if (modalElement) {
@@ -43,8 +52,13 @@ export class EventSelectionComponent implements OnInit {
     }
   }
 
-  chooseEvent(event: Event): void {
-    localStorage.setItem('selectedEvent', JSON.stringify(event));
-    this.router.navigate(['/registration']);
+  closeModal(): void {
+    this.selectedEvent = null;
+    const modalElement = document.getElementById('eventDetailsModal');
+    if (modalElement) {
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      modal?.hide();
+    }
   }
+
 }

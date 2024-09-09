@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EventService } from '../../services/event.service';
 import { TicketTypeService } from '../../services/ticket-type.service';
@@ -25,6 +25,7 @@ export class EventFormComponent implements OnInit {
   ticketTypes: TicketType[] = [];
   cities: string[] = ['Pune', 'Mumbai', 'Nagpur', 'Satara', 'Bangalore'];
   successMessage: string = '';
+  minDateTime: string | undefined;
 
   constructor(
     private fb: FormBuilder,
@@ -36,18 +37,18 @@ export class EventFormComponent implements OnInit {
     this.eventForm = this.fb.group({
       eventName: ['', [Validators.required, Validators.maxLength(100)]],
       eventDateTime: ['', [Validators.required, this.dateValidator]],
-      eventPrice: ['', [Validators.required, Validators.min(0)]],
-      eventDuration: ['', [Validators.required, Validators.min(0)]],
+      eventPrice: ['', [Validators.required, Validators.min(1)]],
+      eventDuration: ['', [Validators.required, Validators.min(1)]],
       eventDetails: ['', [Validators.maxLength(500)]],
       capacityAvailable: [0, [Validators.required, Validators.min(1)]],
       categoryId: ['', Validators.required],
       venueId: ['', Validators.required],
-      ageLimit: ['', [Validators.required, Validators.min(0)]],
+      ageLimit: ['', [Validators.required, Validators.min(5)]],
       ticketTypeId: ['', Validators.required],
       vipTicketCount: [0, [Validators.required, Validators.min(0)]],
       generalTicketCount: [0, [Validators.required, Validators.min(0)]],
       economyTicketCount: [0, [Validators.required, Validators.min(0)]],
-      maxCapacity: [0, Validators.required]  // Add field for max capacity
+      maxCapacity: [0, Validators.required]  
     });
 
     // Listen for changes in ticket counts to ensure they sum up to maxCapacity
@@ -60,6 +61,20 @@ export class EventFormComponent implements OnInit {
     this.fetchCategories();
     this.fetchVenues();
     this.fetchTicketTypes();
+    this.minDateTime = this.getCurrentDateTime();
+  }
+
+  // Function to get the current date and time in the format yyyy-MM-ddTHH:mm for the min attribute
+  getCurrentDateTime(): string {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const hours = currentDate.getHours().toString().padStart(2, '0');
+    const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+
+    // Format to yyyy-MM-ddTHH:mm (the format required for datetime-local)
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
 
   fetchCategories(): void {
@@ -117,10 +132,15 @@ export class EventFormComponent implements OnInit {
     }
   }
 
-  dateValidator(control: any) {
+  dateValidator(control: AbstractControl): ValidationErrors | null {
     const selectedDate = new Date(control.value);
     const currentDate = new Date();
-    return selectedDate > currentDate ? null : { invalidDate: true };
+  
+    // Reset the time part of both dates to compare only the date part
+    selectedDate.setHours(0, 0, 0, 0);
+    currentDate.setHours(0, 0, 0, 0);
+  
+    return selectedDate >= currentDate ? null : { invalidDate: true };
   }
 
   onSubmit(): void {
