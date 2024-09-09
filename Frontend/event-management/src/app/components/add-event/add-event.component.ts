@@ -132,7 +132,7 @@ export class EventFormComponent implements OnInit {
           this.eventForm.reset();
           setTimeout(() => {
             this.successMessage = '';
-            this.router.navigate(['/events']);
+            this.router.navigate(['/event-list']);
           }, 3000); // Redirect after 3 seconds
         },
         error: (err) => console.error(err),
