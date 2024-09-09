@@ -37,27 +37,27 @@ public class EventReportsController : ControllerBase
     }
 
     // 2. Number of oversubscribed events per ticket category
-    [HttpGet("oversubscribed-events")]
-    public async Task<IActionResult> GetOversubscribedEvents()
-    {
-        var result = await _context.Events
-            .Include(e => e.Registrations) // Include the Registrations collection
-            .Select(e => new
-            {
-                e.EventId,
-                e.EventName,
-                e.VipTicketCount,
-                e.GeneralTicketCount,
-                e.EconomyTicketCount,
-                OversubscribedVip = e.VipTicketCount < e.Registrations.Count(r => r.TicketType.Tickettype == "VIP"),
-                OversubscribedGeneral = e.GeneralTicketCount < e.Registrations.Count(r => r.TicketType.Tickettype == "General"),
-                OversubscribedEconomy = e.EconomyTicketCount < e.Registrations.Count(r => r.TicketType.Tickettype == "Economy")
-            })
-            .Where(e => e.OversubscribedVip || e.OversubscribedGeneral || e.OversubscribedEconomy)
-            .ToListAsync();
+    //[HttpGet("oversubscribed-events")]
+    //public async Task<IActionResult> GetOversubscribedEvents()
+    //{
+    //    var result = await _context.Events
+    //        .Include(e => e.Registrations) // Include the Registrations collection
+    //        .Select(e => new
+    //        {
+    //            e.EventId,
+    //            e.EventName,
+    //            e.VipTicketCount,
+    //            e.GeneralTicketCount,
+    //            e.EconomyTicketCount,
+    //            OversubscribedVip = e.VipTicketCount < e.Registrations.Count(r => r.TicketType.Tickettype == "VIP"),
+    //            OversubscribedGeneral = e.GeneralTicketCount < e.Registrations.Count(r => r.TicketType.Tickettype == "General"),
+    //            OversubscribedEconomy = e.EconomyTicketCount < e.Registrations.Count(r => r.TicketType.Tickettype == "Economy")
+    //        })
+    //        .Where(e => e.OversubscribedVip || e.OversubscribedGeneral || e.OversubscribedEconomy)
+    //        .ToListAsync();
 
-        return Ok(result);
-    }
+    //    return Ok(result);
+    //}
 
 
     // 3. Number of registrations per user
