@@ -14,7 +14,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'add-event', component: EventFormComponent ,},
   { path: 'event-selection', component: EventSelectionComponent },
-  { path: 'registration', component: RegistrationComponent },
+  { path: 'registration/:eventId', component: RegistrationComponent },
   { path: 'admin', component: AdminDashboardComponent, },
   { path: 'event-list', component: EventListComponent ,},
   { path: 'registered-users-list', component: RegisteredUsersListComponent ,},
