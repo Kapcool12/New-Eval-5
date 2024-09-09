@@ -14,6 +14,8 @@ namespace EventManagementAPI.Models
 
         [Required(ErrorMessage = "Number of Tickets is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Number of Tickets must be at least 1.")]
+
+
         public int NoOfTickets { get; set; }
 
         [Required(ErrorMessage = "Total Amount is required.")]

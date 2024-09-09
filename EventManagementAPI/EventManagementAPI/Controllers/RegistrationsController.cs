@@ -1,86 +1,76 @@
-﻿using EventManagementAPI.DTOs;
-using EventManagementAPI.Services;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using EventManagementAPI.Models;
+using EventManagementAPI.Models.DTOs;
+using EventManagementAPI.Repositories;
+using AutoMapper;
 
 namespace EventManagementAPI.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class RegistrationsController : ControllerBase
     {
-        private readonly RegistrationService _registrationService;
+        private readonly IRegistrationRepository _repository;
+        private readonly IMapper _mapper;
 
-        public RegistrationsController(RegistrationService registrationService)
+        public RegistrationsController(IRegistrationRepository repository, IMapper mapper)
         {
-            _registrationService = registrationService;
+            _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RegistrationDTO>>> GetAllRegistrations()
+        public async Task<ActionResult<IEnumerable<RegistrationDto>>> GetAll()
         {
-            var registrations = await _registrationService.GetAllRegistrationsAsync();
-            return Ok(registrations);
+            var registrations = await _repository.GetAllAsync();
+            var registrationDtos = _mapper.Map<IEnumerable<RegistrationDto>>(registrations);
+            return Ok(registrationDtos);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<RegistrationDTO>> GetRegistrationById(Guid id)
+        public async Task<ActionResult<RegistrationDto>> GetById(Guid id)
         {
-            var registration = await _registrationService.GetRegistrationByIdAsync(id);
+            var registration = await _repository.GetByIdAsync(id);
             if (registration == null)
-            {
                 return NotFound();
-            }
-            return Ok(registration);
+
+            var registrationDto = _mapper.Map<RegistrationDto>(registration);
+            return Ok(registrationDto);
         }
 
         [HttpPost]
-        public async Task<ActionResult<RegistrationDTO>> AddRegistration([FromBody] RegistrationDTO registrationDto)
+        public async Task<ActionResult<RegistrationDto>> Create(RegistrationDto registrationDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            var registration = _mapper.Map<Registration>(registrationDto);
+            await _repository.AddAsync(registration);
+            var createdRegistrationDto = _mapper.Map<RegistrationDto>(registration);
 
-            var createdRegistration = await _registrationService.AddRegistrationAsync(registrationDto);
-            return CreatedAtAction(nameof(GetRegistrationById), new { id = createdRegistration.RegistrationId }, createdRegistration);
+            return CreatedAtAction(nameof(GetById), new { id = createdRegistrationDto.RegistrationId }, createdRegistrationDto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateRegistration(Guid id, [FromBody] RegistrationDTO registrationDto)
+        public async Task<IActionResult> Update(Guid id, RegistrationDto registrationDto)
         {
             if (id != registrationDto.RegistrationId)
-            {
-                return BadRequest("Registration ID mismatch.");
-            }
+                return BadRequest();
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var updatedRegistration = await _registrationService.UpdateRegistrationAsync(registrationDto);
-            if (updatedRegistration == null)
-            {
-                return NotFound();
-            }
+            var registration = _mapper.Map<Registration>(registrationDto);
+            await _repository.UpdateAsync(registration);
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRegistration(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var deleted = await _registrationService.DeleteRegistrationAsync(id);
-            if (!deleted)
-            {
+            var result = await _repository.DeleteAsync(id);
+            if (!result)
                 return NotFound();
-            }
 
             return NoContent();
         }
     }
 }
-

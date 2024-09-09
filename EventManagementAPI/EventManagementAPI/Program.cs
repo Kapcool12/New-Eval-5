@@ -79,7 +79,6 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
 builder.Services.AddScoped<ITicketTypeRepository, TicketTypeRepository>();
 // Register services
-builder.Services.AddScoped<RegistrationService>();
 builder.Services.AddScoped<TicketTypeService>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 

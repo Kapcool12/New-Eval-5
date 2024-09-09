@@ -97,9 +97,9 @@ namespace EventManagementAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2594e973-a402-44ba-82f5-de3999767d1c",
+                            Id = "d1d736ed-a3e8-4f6c-aeb6-c84251007f0f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4ff3ff44-4910-4e2a-960b-0ef489a78c6f",
+                            ConcurrencyStamp = "b0a6d0a8-5d5a-46db-bcf7-49edba4a5bb1",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -107,9 +107,9 @@ namespace EventManagementAPI.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHNF0K50pWGsLJRFazqlJJ2eSYUoevT+lBq9u5AoKa94W8mvOB8O1cUfLBNX7lnrTg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEB2v3PbAavujY2JiFm2J7PlOQ+9HU2JrOPwmtzPGbChYuyh+VArbyCRT81I6ZX4k/Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ef81f9ee-fa17-480d-adfd-4dfe17c761a8",
+                            SecurityStamp = "ea12cd40-f9db-4aaf-9bf9-fafd5fe6f0b2",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -133,42 +133,42 @@ namespace EventManagementAPI.Migrations
                     b.HasData(
                         new
                         {
-                            CategoryId = new Guid("dd737700-2cf1-47e3-89e0-435febc1e762"),
+                            CategoryId = new Guid("ca731fc6-eed1-4f39-b332-9a894f1926c1"),
                             CategoryType = "Music concerts"
                         },
                         new
                         {
-                            CategoryId = new Guid("89ae65d5-fefe-467a-8f52-76f561bcdbad"),
+                            CategoryId = new Guid("a2c5d1ee-62fc-465c-8006-98033d571db2"),
                             CategoryType = "Seminars"
                         },
                         new
                         {
-                            CategoryId = new Guid("0bf17997-7455-4482-a496-dd92e2d562a1"),
+                            CategoryId = new Guid("395ca495-a71f-45ae-9ecb-f0fce6617959"),
                             CategoryType = "Workshops"
                         },
                         new
                         {
-                            CategoryId = new Guid("4545140d-c3c8-40f4-8855-9e7fb29baaf3"),
+                            CategoryId = new Guid("d8c83a32-fdad-403e-994e-6ece7b924c8a"),
                             CategoryType = "Exhibitions"
                         },
                         new
                         {
-                            CategoryId = new Guid("3ae433e0-e93c-4782-bf09-8c7734f3b32e"),
+                            CategoryId = new Guid("4e438160-3d61-49c1-928b-ae53de3294d4"),
                             CategoryType = "Festivals"
                         },
                         new
                         {
-                            CategoryId = new Guid("8e5ff9e8-a11c-476e-a23d-7bba77126b66"),
+                            CategoryId = new Guid("ae2e3070-0168-4204-80bd-9d9848e1dd51"),
                             CategoryType = "Music"
                         },
                         new
                         {
-                            CategoryId = new Guid("776cc933-b93f-414e-94d9-b1e2c3422910"),
+                            CategoryId = new Guid("45b706a8-e467-47d9-ba39-c41190b9f9ee"),
                             CategoryType = "Career Fairs"
                         },
                         new
                         {
-                            CategoryId = new Guid("2043ff2d-cd3e-41f0-9b10-c5174ef70247"),
+                            CategoryId = new Guid("1b8a3e7a-1b33-4231-ace6-559ce502ecef"),
                             CategoryType = "Workshops"
                         });
                 });
@@ -250,12 +250,17 @@ namespace EventManagementAPI.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<Guid>("TicketTypeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("PaymentId");
 
                     b.HasIndex("RegistrationId");
+
+                    b.HasIndex("TicketTypeId");
 
                     b.ToTable("Payments");
                 });
@@ -292,17 +297,12 @@ namespace EventManagementAPI.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid>("TicketTypeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("RegistrationId");
 
                     b.HasIndex("EventId");
-
-                    b.HasIndex("TicketTypeId");
 
                     b.HasIndex("UserId");
 
@@ -330,37 +330,37 @@ namespace EventManagementAPI.Migrations
                     b.HasData(
                         new
                         {
-                            TicketTypeId = new Guid("4696a2fe-7397-4b48-a15b-60fb4cb33c70"),
+                            TicketTypeId = new Guid("ef4af452-b280-49ee-81de-8b593afca95a"),
                             Price = 0.0,
                             Tickettype = "General"
                         },
                         new
                         {
-                            TicketTypeId = new Guid("236aff3a-fb82-42ee-af9f-ccb78c1b98d1"),
+                            TicketTypeId = new Guid("66e7a03a-2432-4282-ae36-18cf889c25c6"),
                             Price = 0.0,
                             Tickettype = "VIP"
                         },
                         new
                         {
-                            TicketTypeId = new Guid("77d2d3cf-1e57-4526-97db-569bd527a6d8"),
+                            TicketTypeId = new Guid("e85ad908-4709-4e9d-a55c-e48b1fd389d6"),
                             Price = 0.0,
                             Tickettype = "Economic"
                         },
                         new
                         {
-                            TicketTypeId = new Guid("d3d9a4b6-846d-441a-9e7e-dd2fe09104ed"),
+                            TicketTypeId = new Guid("23c9f839-9317-4667-88b0-e8ca7e36629c"),
                             Price = 0.0,
                             Tickettype = "General"
                         },
                         new
                         {
-                            TicketTypeId = new Guid("fd70ed16-ec0c-4252-9988-f0e073075abf"),
+                            TicketTypeId = new Guid("58790c35-59b4-45bd-be08-db74b371a971"),
                             Price = 1000.0,
                             Tickettype = "VIP"
                         },
                         new
                         {
-                            TicketTypeId = new Guid("d7103960-9280-4696-bf77-b505144b6715"),
+                            TicketTypeId = new Guid("e07a108f-b23b-479f-960c-7203528cb4ee"),
                             Price = 500.0,
                             Tickettype = "Economy"
                         });
@@ -448,7 +448,40 @@ namespace EventManagementAPI.Migrations
                     b.HasData(
                         new
                         {
-                            VenueId = new Guid("bdf44e73-8165-4206-9319-eab9053c7e13"),
+                            VenueId = new Guid("75e48c58-6510-4533-a6e4-485eb420a0e0"),
+                            City = "New York",
+                            MaxCapacity = 50,
+                            Pincode = "10001",
+                            State = "NY",
+                            VenueAddress1 = "123 Main St",
+                            VenueAddress2 = "",
+                            VenueName = "Convention Center"
+                        },
+                        new
+                        {
+                            VenueId = new Guid("8736c80a-9ccd-483f-90cc-a2cbf5a65fc5"),
+                            City = "Los Angeles",
+                            MaxCapacity = 200,
+                            Pincode = "90001",
+                            State = "CA",
+                            VenueAddress1 = "456 Park Ave",
+                            VenueAddress2 = "Near Central Park",
+                            VenueName = "Open Grounds"
+                        },
+                        new
+                        {
+                            VenueId = new Guid("3c22e113-ad74-4838-bbe5-a53c5ee6406f"),
+                            City = "Chicago",
+                            MaxCapacity = 150,
+                            Pincode = "60601",
+                            State = "IL",
+                            VenueAddress1 = "789 Broadway",
+                            VenueAddress2 = "Suite 100",
+                            VenueName = "Auditorium Hall"
+                        },
+                        new
+                        {
+                            VenueId = new Guid("5752b710-bdbd-49d7-8fc0-9fd8d1161ab1"),
                             City = "New York",
                             MaxCapacity = 5000,
                             Pincode = "10001",
@@ -459,7 +492,7 @@ namespace EventManagementAPI.Migrations
                         },
                         new
                         {
-                            VenueId = new Guid("fb3dccb4-f0a7-44dc-ac1c-6c147cf00993"),
+                            VenueId = new Guid("e7b7118d-ad3d-4c27-bc2d-df6aaeb1e451"),
                             City = "Los Angeles",
                             MaxCapacity = 2000,
                             Pincode = "90001",
@@ -470,7 +503,7 @@ namespace EventManagementAPI.Migrations
                         },
                         new
                         {
-                            VenueId = new Guid("725dd39b-6ca2-4d96-9bfa-16e779872509"),
+                            VenueId = new Guid("5d690b82-7fe1-41b5-ae79-9b45e5324645"),
                             City = "Chicago",
                             MaxCapacity = 1000,
                             Pincode = "60601",
@@ -510,13 +543,13 @@ namespace EventManagementAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9ee7b5f0-bfae-47cc-80f5-2087c02783e8",
+                            Id = "d971b5aa-a96c-43ba-b71e-443dcdde5172",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d8d4c074-6830-48bb-9bee-ea6d2d87165d",
+                            Id = "251788c9-f66f-42bf-8898-77f72e54c394",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -611,8 +644,8 @@ namespace EventManagementAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "2594e973-a402-44ba-82f5-de3999767d1c",
-                            RoleId = "9ee7b5f0-bfae-47cc-80f5-2087c02783e8"
+                            UserId = "d1d736ed-a3e8-4f6c-aeb6-c84251007f0f",
+                            RoleId = "d971b5aa-a96c-43ba-b71e-443dcdde5172"
                         });
                 });
 
@@ -662,7 +695,15 @@ namespace EventManagementAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("EventManagementAPI.Models.TicketType", "TicketType")
+                        .WithMany()
+                        .HasForeignKey("TicketTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Registration");
+
+                    b.Navigation("TicketType");
                 });
 
             modelBuilder.Entity("EventManagementAPI.Models.Registration", b =>
@@ -673,12 +714,6 @@ namespace EventManagementAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EventManagementAPI.Models.TicketType", "TicketType")
-                        .WithMany()
-                        .HasForeignKey("TicketTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("EventManagementAPI.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -686,8 +721,6 @@ namespace EventManagementAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Event");
-
-                    b.Navigation("TicketType");
 
                     b.Navigation("User");
                 });

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Dell\\Downloads\\eval5-main\\eval5-main\\Backend\\EventManagementAPI\\EventManagementAPI\\EventManagementAPI.csproj": {}
+    "D:\\eval5\\New-Eval-5\\EventManagementAPI\\EventManagementAPI\\EventManagementAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Dell\\Downloads\\eval5-main\\eval5-main\\Backend\\EventManagementAPI\\EventManagementAPI\\EventManagementAPI.csproj": {
+    "D:\\eval5\\New-Eval-5\\EventManagementAPI\\EventManagementAPI\\EventManagementAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Dell\\Downloads\\eval5-main\\eval5-main\\Backend\\EventManagementAPI\\EventManagementAPI\\EventManagementAPI.csproj",
+        "projectUniqueName": "D:\\eval5\\New-Eval-5\\EventManagementAPI\\EventManagementAPI\\EventManagementAPI.csproj",
         "projectName": "EventManagementAPI",
-        "projectPath": "C:\\Users\\Dell\\Downloads\\eval5-main\\eval5-main\\Backend\\EventManagementAPI\\EventManagementAPI\\EventManagementAPI.csproj",
-        "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Dell\\Downloads\\eval5-main\\eval5-main\\Backend\\EventManagementAPI\\EventManagementAPI\\obj\\",
+        "projectPath": "D:\\eval5\\New-Eval-5\\EventManagementAPI\\EventManagementAPI\\EventManagementAPI.csproj",
+        "packagesPath": "C:\\Users\\swapnil morkhade\\.nuget\\packages\\",
+        "outputPath": "D:\\eval5\\New-Eval-5\\EventManagementAPI\\EventManagementAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\swapnil morkhade\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -35,11 +34,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -100,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
