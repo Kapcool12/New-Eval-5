@@ -1,16 +1,16 @@
-﻿using EventManagementAPI.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EventManagementAPI.Models;
 
 namespace EventManagementAPI.Repositories
 {
     public interface IRegistrationRepository
     {
-        Task<IEnumerable<Registration>> GetAllRegistrationsAsync();
-        Task<Registration> GetRegistrationByIdAsync(Guid registrationId);
-        Task<Registration> AddRegistrationAsync(Registration registration);
-        Task<Registration> UpdateRegistrationAsync(Registration registration);
-        Task<bool> DeleteRegistrationAsync(Guid registrationId);
+        Task<IEnumerable<Registration>> GetAllAsync();
+        Task<Registration> GetByIdAsync(Guid id);
+        Task<Registration> AddAsync(Registration registration);
+        Task<Registration> UpdateAsync(Registration registration);
+        Task<bool> DeleteAsync(Guid id);
     }
 }
