@@ -28,11 +28,13 @@
       <div class="form-group">
           <label for="ticketType">Ticket Type:</label>
           <select class="form-control" id="ticketType" formControlName="ticketType" required>
+            <option value="">Select Ticket Type</option>
+
               <option *ngFor="let ticket of ticketTypes" [value]="ticket.ticketTypeId">
                   {{ ticket.tickettype }} - ${{ ticket.price }}
               </option>
           </select>
       </div>
-      <button type="submit" class="btn btn-primary">Register</button>
+      <button type="submit" class="btn btn-primary">Procced for payment</button>
   </form>
 </div>
