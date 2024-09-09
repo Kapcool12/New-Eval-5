@@ -1,25 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { RegistrationService } from '../../services/registration.service';
+import { TicketTypeService } from '../../services/ticket-type.service';
+import { TicketType } from '../../models/ticket-type.model';
+import { Registration } from '../../models/registration.model';
+import jwt_decode from 'jwt-decode'; // Ensure jwt-decode is imported correctly
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css'],
-  standalone:true,
-  imports:[CommonModule,ReactiveFormsModule]
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule,HttpClientModule],
+  providers:[RegistrationService,TicketTypeService]
 })
 export class RegistrationComponent implements OnInit {
   registrationForm!: FormGroup;
-  ticketTypes: any[] = [];
-  
-  private apiUrl = 'https://localhost:7104/api/Registrations';
-  private ticketTypesUrl = 'https://localhost:7104/api/TicketTypes';
+  ticketTypes: TicketType[] = [];
+  private eventId!: string;
+  private userId!: string |null;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) { }
+  constructor(
+    private fb: FormBuilder,
+    private registrationService: RegistrationService,
+    private ticketTypeService: TicketTypeService,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
     this.registrationForm = this.fb.group({
@@ -32,32 +43,72 @@ export class RegistrationComponent implements OnInit {
     });
 
     this.loadTicketTypes();
+
+    this.route.paramMap.subscribe(params => {
+      this.eventId = params.get('eventId') || '';
+    });
+
+   this.userId = this.getUserIdFromToken();
   }
 
   loadTicketTypes(): void {
-    this.http.get<any[]>(this.ticketTypesUrl).pipe(
-      catchError(error => {
-        console.error('Error fetching ticket types', error);
-        return of([]);
-      })
-    ).subscribe(data => {
+    this.ticketTypeService.getTicketTypes().subscribe(data => {
       this.ticketTypes = data;
     });
   }
 
+  private decodeToken(token: string): any {
+    try {
+      const parts = token.split('.');
+      if (parts.length !== 3) {
+        throw new Error('JWT does not have 3 parts');
+      }
+      const decoded = atob(parts[1]);
+      return JSON.parse(decoded);
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  }
+
+  private getUserIdFromToken(): string | null {
+    const token = localStorage.getItem('token'); // Replace with your actual token retrieval logic
+    if (token) {
+      try {
+        const decoded: any = this.decodeToken(token);
+        console.log("id",decoded.sub)
+        return decoded.sub|| null; // Adjust based on your token structure
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        return null;
+      }
+    }
+    return null;
+  }
+
   onSubmit(): void {
     if (this.registrationForm.valid) {
-      this.http.post(this.apiUrl, this.registrationForm.value).pipe(
-        catchError(error => {
-          console.error('Error submitting registration', error);
-          return of(null);
-        })
-      ).subscribe(response => {
-        if (response) {
+      const formValue = this.registrationForm.value;
+      const postData: Registration = {
+        userId: this.getUserIdFromToken(),
+        eventId: this.eventId,
+        name: formValue.name,
+        email: formValue.email,
+        mobileNo: formValue.mobileNo,
+        age: formValue.age,
+        gender: formValue.gender,
+        ticketTypeId: formValue.ticketType
+      };
+
+      this.registrationService.submitRegistration(postData).subscribe({
+        next: (response) => {
           alert('Registration successful!');
+        
           this.registrationForm.reset();
-        } else {
+        },
+        error: (err) => {
           alert('Registration failed. Please try again.');
+          console.error('Error during registration:', err);
         }
       });
     }
