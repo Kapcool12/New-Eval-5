@@ -24,12 +24,14 @@ export class RegistrationComponent implements OnInit {
   ticketTypes: TicketType[] = [];
   private eventId!: string;
   private userId!: string |null;
+  
 
   constructor(
     private fb: FormBuilder,
     private registrationService: RegistrationService,
     private ticketTypeService: TicketTypeService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router:Router
   ) { }
 
   ngOnInit(): void {
@@ -102,9 +104,10 @@ export class RegistrationComponent implements OnInit {
 
       this.registrationService.submitRegistration(postData).subscribe({
         next: (response) => {
+          console.log(response)
           alert('Registration successful!');
-        
-          this.registrationForm.reset();
+          this.router.navigate(['/payment', response.registrationId]);
+         // this.registrationForm.reset();
         },
         error: (err) => {
           alert('Registration failed. Please try again.');
@@ -113,4 +116,11 @@ export class RegistrationComponent implements OnInit {
       });
     }
   }
+   // Helper methods for validation messages
+   get name() { return this.registrationForm.get('name'); }
+   get email() { return this.registrationForm.get('email'); }
+   get mobileNo() { return this.registrationForm.get('mobileNo'); }
+   get age() { return this.registrationForm.get('age'); }
+   get gender() { return this.registrationForm.get('gender'); }
+   get ticketType() { return this.registrationForm.get('ticketType'); }
 }

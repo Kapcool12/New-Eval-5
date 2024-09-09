@@ -1,0 +1,18 @@
+<div class="container mt-4">
+    <div class="card">
+      <div class="card-header">
+        <h3>Registration Successful!</h3>
+      </div>
+      <div class="card-body">
+        <p><strong>Registration ID:</strong> {{ registrationId }}</p>
+        <p><strong>Event Name:</strong> {{ eventName }}</p>
+        <p><strong>Email:</strong> {{ userEmail }}</p>
+        <p><strong>Total Amount:</strong> {{ totalAmount | currency }}</p>
+  
+        <button class="btn btn-primary" (click)="navigateToHome()">
+          Go to Home
+        </button>
+      </div>
+    </div>
+  </div>
+  

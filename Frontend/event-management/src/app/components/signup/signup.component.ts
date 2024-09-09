@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { SignupService } from '../../services/signup.service';
 import { RegisterDTO } from '../../models/register.model';
 import { CommonModule } from '@angular/common';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-signup',
   standalone: true,
@@ -17,7 +17,7 @@ export class SignupComponent {
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private signupService: SignupService) {
+  constructor(private fb: FormBuilder, private signupService: SignupService, private router: Router) {
     this.signupForm = this.fb.group(
       {
         firstName: [
@@ -81,6 +81,7 @@ export class SignupComponent {
           this.successMessage = 'Signup successful!';
           this.errorMessage = null;
           this.signupForm.reset(); // Optionally reset the form
+          this.router.navigate(['/login']);
         },
         (error) => {
           this.errorMessage = 'Signup failed. Please try again.';

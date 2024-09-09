@@ -9,6 +9,8 @@ import { AdminDashboardComponent } from './components/admin-dashboard/admin-dash
 import { EventListComponent } from './components/event-list/event-list.component';
 import { RegisteredUsersListComponent } from './components/registered-users-list/registered-users-list.component';
 import { AuthGuard } from '../app/auth.guard';
+import { PaymentComponent } from './components/payment/payment.component';
+import { RegistrationSuccessComponent } from './components/registration-success/registration-success.component';
 export const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
@@ -19,6 +21,11 @@ export const routes: Routes = [
   { path: 'event-list', component: EventListComponent ,},
   { path: 'registered-users-list', component: RegisteredUsersListComponent ,},
 
+  { path: 'payment', component: PaymentComponent ,},
+  { path: 'payment/:registrationId', component: PaymentComponent },
+  {path: 'registration-success/:registrationId',
+  component: RegistrationSuccessComponent},
+  { path: 'registration-success', component: RegistrationSuccessComponent ,},
 
   // other routes can go here
 ];
