@@ -1,0 +1,51 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Upcoming Events</h2>
+  
+    <!-- Display a message if there are no future events -->
+    <div *ngIf="futureEvents.length === 0" class="alert alert-info">
+      No upcoming events.
+    </div>
+  
+    <!-- Display future events in a card layout -->
+    <div class="row">
+      <div *ngFor="let event of futureEvents" class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ event.eventName }}</h5>
+            <p class="card-text">
+              <strong>Date:</strong> {{ event.eventDateTime | date:'medium' }}<br>
+              <strong>Price:</strong> ${{ event.eventPrice }}<br>
+              <strong>Capacity:</strong> {{ event.capacityAvailable }} seats available
+            </p>
+            <button class="btn btn-primary" (click)="openDetailsModal(event)">View Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Modal for event details -->
+    <div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="eventDetailsModalLabel">{{ selectedEvent?.eventName }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Date:</strong> {{ selectedEvent?.eventDateTime | date:'medium' }}</p>
+            <p><strong>Duration:</strong> {{ selectedEvent?.eventDuration }} hours</p>
+            <p><strong>Price:</strong> ${{ selectedEvent?.eventPrice }}</p>
+            <p><strong>Capacity Available:</strong> {{ selectedEvent?.capacityAvailable }}</p>
+            <p><strong>Event Details:</strong> {{ selectedEvent?.eventDetails }}</p>
+            <p><strong>VIP Tickets:</strong> {{ selectedEvent?.vipTicketCount }}</p>
+            <p><strong>General Tickets:</strong> {{ selectedEvent?.generalTicketCount }}</p>
+            <p><strong>Economy Tickets:</strong> {{ selectedEvent?.economyTicketCount }}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
